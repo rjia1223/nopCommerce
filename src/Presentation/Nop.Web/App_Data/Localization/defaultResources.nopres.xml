@@ -14460,6 +14460,9 @@
   <LocaleResource Name="Checkout.Button">
     <Value>Checkout</Value>
   </LocaleResource>
+  <LocaleResource Name="Checkout.CheckoutAttributes.FormattedAttributes">
+    <Value>{0}: {1} {2}</Value>
+  </LocaleResource>
   <LocaleResource Name="Checkout.ConfirmButton">
     <Value>Confirm</Value>
   </LocaleResource>
@@ -15413,6 +15416,24 @@
   </LocaleResource>
   <LocaleResource Name="Footer.TaxShipping.InclTax">
     <Value><![CDATA[All prices are entered including tax. Excluding <a href="{0}">shipping</a>]]></Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment">
+    <Value>[{0}]</Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment.Constant">
+    <Value>{0}</Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment.Decreased">
+    <Value>-{0}</Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment.Increased">
+    <Value>+{0}</Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment.Percentage">
+    <Value>{0}%</Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment.PriceValue">
+    <Value>{0}</Value>
   </LocaleResource>
   <LocaleResource Name="Forum.ActiveDiscussions">
     <Value>Active discussions</Value>
@@ -16765,7 +16786,7 @@
     <Value>You have {0} unread message(s) in your Inbox</Value>
   </LocaleResource>
   <LocaleResource Name="ProductAttributes.Quantity">
-    <Value> - quantity {0}</Value>
+    <Value>- quantity {0}</Value>
   </LocaleResource>
   <LocaleResource Name="Products.AlsoPurchased">
     <Value>Customers who bought this item also bought</Value>
@@ -16976,6 +16997,9 @@
   </LocaleResource>
   <LocaleResource Name="Products.PriceRangeFrom">
     <Value>From {0}</Value>
+  </LocaleResource>
+  <LocaleResource Name="Products.ProductAttributes.FormattedAttributes">
+    <Value>{0}: {1} {2} {3}</Value>
   </LocaleResource>
   <LocaleResource Name="Products.ProductAttributes.PriceAdjustment">
     <Value>{0} [{1}{2}]</Value>

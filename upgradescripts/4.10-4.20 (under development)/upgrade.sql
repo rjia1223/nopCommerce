@@ -143,6 +143,33 @@ set @resources='
   <LocaleResource Name="Admin.Common.Alert.Add.Error">
     <Value>Failed to add record.</Value>
   </LocaleResource>
+    <LocaleResource Name="Checkout.CheckoutAttributes.FormattedAttributes">
+    <Value>{0}: {1} {2}</Value>
+  </LocaleResource>
+  <LocaleResource Name="Products.ProductAttributes.FormattedAttributes">
+    <Value>{0}: {1} {2} {3}</Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment">
+    <Value>[{0}]</Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment.Constant">
+    <Value>{0}</Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment.Decreased">
+    <Value>-{0}</Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment.Increased">
+    <Value>+{0}</Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment.Percentage">
+    <Value>{0}%</Value>
+  </LocaleResource>
+  <LocaleResource Name="FormattedAttributes.PriceAdjustment.PriceValue">
+    <Value>{0}</Value>
+  </LocaleResource>
+  <LocaleResource Name="ProductAttributes.Quantity">
+    <Value>- quantity {0}</Value>
+  </LocaleResource>
 </Language>
 '
 
