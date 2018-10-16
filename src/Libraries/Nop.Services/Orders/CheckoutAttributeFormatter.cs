@@ -165,8 +165,17 @@ namespace Nop.Services.Orders
                         {
                             var attributeValue = _checkoutAttributeService.GetCheckoutAttributeValueById(attributeValueId);
                             var formattedPrice = string.Empty;
+
                             if (attributeValue != null)
                             {
+                                var formattedNameValue = string.Format(
+                                    _localizationService.GetResource(
+                                        "Checkout.CheckoutAttributes.FormattedAttributes.NameValue"),
+                                    _localizationService.GetLocalized(attribute, a => a.Name,
+                                        _workContext.WorkingLanguage.Id),
+                                    _localizationService.GetLocalized(attributeValue, a => a.Name,
+                                        _workContext.WorkingLanguage.Id));
+
                                 if (renderPrices)
                                 {
                                     var priceAdjustmentBase = _taxService.GetCheckoutAttributePrice(attributeValue, customer);
@@ -179,17 +188,17 @@ namespace Nop.Services.Orders
                                             _priceFormatter.FormatPrice(priceAdjustment));
                                     }
                                 }
+
+                                formattedAttribute = string.Format(
+                                    _localizationService.GetResource("Checkout.CheckoutAttributes.FormattedAttributes.Full"),
+                                    formattedNameValue, formattedPrice).Trim();
+
+                                //encode (if required)
+                                if (htmlEncode)
+                                    formattedAttribute = WebUtility.HtmlEncode(formattedAttribute);
+
                             }
 
-                            formattedAttribute = string.Format(
-                                _localizationService.GetResource("Checkout.CheckoutAttributes.FormattedAttributes.Full"),
-                                _localizationService.GetLocalized(attribute, a => a.Name, _workContext.WorkingLanguage.Id),
-                                _localizationService.GetLocalized(attributeValue, a => a.Name, _workContext.WorkingLanguage.Id),
-                                formattedPrice).Trim();
-
-                            //encode (if required)
-                            if (htmlEncode)
-                                formattedAttribute = WebUtility.HtmlEncode(formattedAttribute);
                         }
                     }
 

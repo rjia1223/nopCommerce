@@ -144,13 +144,13 @@ set @resources='
     <Value>Failed to add record.</Value>
   </LocaleResource>
   <LocaleResource Name="Products.ProductAttributes.FormattedAttributes.Full">
-    <Value>{0}: {1} {2} {3}</Value>
+    <Value>{0} {1} {2}</Value>
   </LocaleResource>
   <LocaleResource Name="Products.ProductAttributes.FormattedAttributes.NameValue">
     <Value>{0}: {1}</Value>
   </LocaleResource>
   <LocaleResource Name="Checkout.CheckoutAttributes.FormattedAttributes.Full">
-    <Value>{0}: {1} {2}</Value>
+    <Value>{0} {1}</Value>
   </LocaleResource>
   <LocaleResource Name="Checkout.CheckoutAttributes.FormattedAttributes.NameValue">
     <Value>{0}: {1}</Value>

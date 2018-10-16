@@ -176,6 +176,14 @@ namespace Nop.Services.Catalog
                     {
                         foreach (var attributeValue in _productAttributeParser.ParseProductAttributeValues(attributesXml, attribute.Id))
                         {
+                            var formattedNameValue = string.Format(
+                                _localizationService.GetResource(
+                                    "Products.ProductAttributes.FormattedAttributes.NameValue"),
+                                _localizationService.GetLocalized(attribute.ProductAttribute, a => a.Name,
+                                    _workContext.WorkingLanguage.Id),
+                                _localizationService.GetLocalized(attributeValue, a => a.Name,
+                                    _workContext.WorkingLanguage.Id));
+
                             var formattedPrice = string.Empty;
                             var quantity = string.Empty;
                             if (renderPrices)
@@ -198,16 +206,16 @@ namespace Nop.Services.Catalog
                                 else
                                 {
                                     var attributeValuePriceAdjustment = _priceCalculationService.GetProductAttributeValuePriceAdjustment(attributeValue, customer);
-                                    var price = _taxService.GetProductPrice(product, attributeValuePriceAdjustment, customer, out var _);
-                                    var priceAdjustment = _currencyService.ConvertFromPrimaryStoreCurrency(price, _workContext.WorkingCurrency);
+                                    var priceAdjustmentBase = _taxService.GetProductPrice(product, attributeValuePriceAdjustment, customer, out var _);
+                                    var priceAdjustment = _currencyService.ConvertFromPrimaryStoreCurrency(priceAdjustmentBase, _workContext.WorkingCurrency);
 
-                                    if (price > decimal.Zero)
+                                    if (priceAdjustmentBase > decimal.Zero)
                                     {
                                         formattedPrice = string.Format(_localizationService.GetResource(
                                                 "FormattedAttributes.PriceAdjustment.PriceValue.Increased"),
                                             _priceFormatter.FormatPrice(priceAdjustment, false, false));
                                     }
-                                    else if (price < decimal.Zero)
+                                    else if (priceAdjustmentBase < decimal.Zero)
                                     {
                                         formattedPrice = string.Format(_localizationService.GetResource(
                                                 "FormattedAttributes.PriceAdjustment.PriceValue.Decreased"),
@@ -226,9 +234,7 @@ namespace Nop.Services.Catalog
 
                             var formattedAttribute = string.Format(
                                 _localizationService.GetResource("Products.ProductAttributes.FormattedAttributes.Full"),
-                                _localizationService.GetLocalized(attribute.ProductAttribute, a => a.Name, _workContext.WorkingLanguage.Id),
-                                _localizationService.GetLocalized(attributeValue, a => a.Name, _workContext.WorkingLanguage.Id),
-                                formattedPrice, quantity).Trim();
+                                formattedNameValue, formattedPrice, quantity).Trim();
 
                             //encode (if required)
                             if (htmlEncode)
