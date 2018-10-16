@@ -117,9 +117,8 @@ namespace Nop.Services.Catalog
                                 //we never encode multiline textbox input
                                 formattedAttribute = string.Format(
                                     _localizationService.GetResource(
-                                        "Products.ProductAttributes.FormattedAttributes"),
-                                    attributeName, HtmlHelper.FormatText(value, false, true, false, false, false, false),
-                                    string.Empty, string.Empty).Trim();
+                                        "Products.ProductAttributes.FormattedAttributes.NameValue"),
+                                    attributeName, HtmlHelper.FormatText(value, false, true, false, false, false, false));
                             }
                             else if (attribute.AttributeControlType == AttributeControlType.FileUpload)
                             {
@@ -146,17 +145,18 @@ namespace Nop.Services.Catalog
 
                                     formattedAttribute = string.Format(
                                         _localizationService.GetResource(
-                                            "Products.ProductAttributes.FormattedAttributes"),
-                                        attributeName, attributeText, string.Empty, string.Empty).Trim();
+                                            "Products.ProductAttributes.FormattedAttributes.NameValue"),
+                                        attributeName, attributeText);
                                 }
                             }
                             else
                             {
                                 //other attributes (textbox, datepicker)
                                 formattedAttribute = string.Format(
-                                    _localizationService.GetResource("Checkout.CheckoutAttributes.FormattedAttributes"),
-                                    _localizationService.GetLocalized(attribute.ProductAttribute, a => a.Name, _workContext.WorkingLanguage.Id),
-                                    value, string.Empty, string.Empty).Trim();
+                                    _localizationService.GetResource("Products.ProductAttributes.FormattedAttributes.NameValue"),
+                                    _localizationService.GetLocalized(
+                                        attribute.ProductAttribute, a => a.Name, _workContext.WorkingLanguage.Id),
+                                    value);
 
                                 //encode (if required)
                                 if (htmlEncode)
@@ -178,64 +178,42 @@ namespace Nop.Services.Catalog
                         {
                             var formattedPrice = string.Empty;
                             var quantity = string.Empty;
-                            var trend = string.Empty;
-                            var price = decimal.Zero;
                             if (renderPrices)
                             {
                                 if (attributeValue.PriceAdjustmentUsePercentage)
                                 {
-                                    price = attributeValue.PriceAdjustment;
-                                    var percentage = string.Format(
-                                        _localizationService.GetResource(
-                                            "FormattedAttributes.PriceAdjustment.Percentage"),
-                                        attributeValue.PriceAdjustment.ToString("G29"));
                                     if (attributeValue.PriceAdjustment > decimal.Zero)
                                     {
-                                        trend = string.Format(
-                                            _localizationService.GetResource(
-                                                "FormattedAttributes.PriceAdjustment.Increased"), percentage);
+                                        formattedPrice = string.Format(_localizationService.GetResource(
+                                                "FormattedAttributes.PriceAdjustment.Percentage.Increased"), 
+                                                attributeValue.PriceAdjustment.ToString("G29"));
                                     }
                                     else if (attributeValue.PriceAdjustment < decimal.Zero)
                                     {
-                                        trend = string.Format(
-                                            _localizationService.GetResource(
-                                                "FormattedAttributes.PriceAdjustment.Constant"), percentage);
+                                        formattedPrice = string.Format(_localizationService.GetResource(
+                                                "FormattedAttributes.PriceAdjustment.Percentage.Constant"),
+                                            attributeValue.PriceAdjustment.ToString("G29"));
                                     }
                                 }
                                 else
                                 {
                                     var attributeValuePriceAdjustment = _priceCalculationService.GetProductAttributeValuePriceAdjustment(attributeValue, customer);
-                                    price = _taxService.GetProductPrice(product, attributeValuePriceAdjustment, customer, out var _);
+                                    var price = _taxService.GetProductPrice(product, attributeValuePriceAdjustment, customer, out var _);
                                     var priceAdjustment = _currencyService.ConvertFromPrimaryStoreCurrency(price, _workContext.WorkingCurrency);
 
                                     if (price > decimal.Zero)
                                     {
-                                        var priceValue = string.Format(
-                                            _localizationService.GetResource(
-                                                "FormattedAttributes.PriceAdjustment.PriceValue"),
-                                            _priceFormatter.FormatPrice(priceAdjustment, false, false)
-                                        );
-                                        trend = string.Format(
-                                            _localizationService.GetResource(
-                                                "FormattedAttributes.PriceAdjustment.Increased"),
-                                            priceValue);
+                                        formattedPrice = string.Format(_localizationService.GetResource(
+                                                "FormattedAttributes.PriceAdjustment.PriceValue.Increased"),
+                                            _priceFormatter.FormatPrice(priceAdjustment, false, false));
                                     }
                                     else if (price < decimal.Zero)
                                     {
-                                        var priceValue = string.Format(
-                                            _localizationService.GetResource(
-                                                "FormattedAttributes.PriceAdjustment.PriceValue"),
-                                            _priceFormatter.FormatPrice(-priceAdjustment, false, false)
-                                        );
-                                        trend = string.Format(
-                                            _localizationService.GetResource(
-                                                "FormattedAttributes.PriceAdjustment.Decreased"),
-                                            priceValue);
+                                        formattedPrice = string.Format(_localizationService.GetResource(
+                                                "FormattedAttributes.PriceAdjustment.PriceValue.Decreased"),
+                                            _priceFormatter.FormatPrice(-priceAdjustment, false, false));
                                     }
                                 }
-
-                                formattedPrice = string.Format(
-                                        _localizationService.GetResource("FormattedAttributes.PriceAdjustment"), trend);
                             }
 
                             //display quantity
@@ -246,10 +224,8 @@ namespace Nop.Services.Catalog
                                     quantity = string.Format(_localizationService.GetResource("ProductAttributes.Quantity"), attributeValue.Quantity);
                             }
 
-                            formattedPrice = price == decimal.Zero ? string.Empty : formattedPrice;
-
                             var formattedAttribute = string.Format(
-                                _localizationService.GetResource("Products.ProductAttributes.FormattedAttributes"),
+                                _localizationService.GetResource("Products.ProductAttributes.FormattedAttributes.Full"),
                                 _localizationService.GetLocalized(attribute.ProductAttribute, a => a.Name, _workContext.WorkingLanguage.Id),
                                 _localizationService.GetLocalized(attributeValue, a => a.Name, _workContext.WorkingLanguage.Id),
                                 formattedPrice, quantity).Trim();
